@@ -41,4 +41,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = ['fullname'];
+
+    public function getFullNameAttribute()
+    {
+        return "{$this['name']} {$this['last_name']}";
+    }
+
+    public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    public function page_posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PagePost::class, 'user_id', 'id');
+    }
 }
